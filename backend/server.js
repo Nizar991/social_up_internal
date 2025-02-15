@@ -2,7 +2,7 @@ const express = require('express');
 const cors = require('cors');
 const mongoose = require('mongoose');
 const dotenv = require('dotenv');
-const authRoutes = require('./authRoutes');
+const authRoutes = require('./routes/authRoutes');
 const Line = require('./models/Line');  // Import the Line model here
 
 dotenv.config();
