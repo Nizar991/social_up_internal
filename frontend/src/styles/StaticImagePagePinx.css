@@ -1,0 +1,325 @@
+/* General styles for Static Image Page */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Button Styles */
+.name-logo-btn-pinx {
+  position: fixed;
+  background: none;
+  border: none;
+  font-size: 7vh;
+  top: 12vh;
+  left: 23vh;
+  font-weight: bold;
+  color: #383838;
+  cursor: pointer;
+}
+
+/* Client Button */
+.client-btn-pinx, .logout-btn-pinx {
+  position: fixed;
+  padding: 1.5vh 3vh;
+  width: 14vh;
+  height: 7vh;
+  font-size: 2vh;
+  font-weight: bold;
+  color: #383838;
+  background-color: transparent;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: none;
+  border-radius: 1vh;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.client-btn-pinx {
+  top: 13vh;
+  right: 41vh;
+}
+
+.client-btn-pinx:hover {
+  background-color: #525252;
+  color: white;
+}
+
+.logout-btn-pinx {
+  top: 13vh;
+  right: 26vh;
+}
+
+.logout-btn-pinx:hover {
+  background-color: #525252;
+  color: white;
+}
+
+
+.staticimage-background-pinx { 
+  background-image: url("../assets/StaticImageBg.png"); 
+  background-size:  contain;
+  background-position: center;
+  background-attachment: fixed;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: auto;
+  position: relative;
+  background-color: #b8aea7;
+}
+
+
+.staticimage-container-pinx {
+  position: absolute;
+  display: inline-block;
+  width: 20vh; 
+}
+
+.dropdown-menu-pinx {
+  display: none;
+  position: sticky;
+  background-color: #685f54;
+  min-width: 16vh; /* Adjust width to vh */
+  box-shadow: 0px 1vh 2vh rgba(0, 0, 0, 0.5);
+  z-index: 1;
+  border-radius: 1vh;
+  margin-top: -30vh;
+  margin-left: 285%;
+  width: 20vh;
+  color: white;
+  transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
+  font-weight: bold;
+  position: relative;
+}
+
+.group-pinx:hover .dropdown-menu-pinx {
+  opacity: 1;
+  visibility: visible;
+}
+
+.dropdown-menu-pinx ul {
+  list-style-type: none;
+  padding: 0;
+  /* padding: 1vh 0; */
+  margin: 0;
+}
+
+.dropdown-menu-pinx li {
+  padding: 1vh;
+  font-size: 2vh;
+  cursor: pointer;
+  transition: background-color 0.3s ease-in-out;
+}
+
+.dropdown-menu-pinx li:hover {
+  background-color: #525252;
+  color: lightgray;
+  font-weight: bold;
+}
+
+.client-group-pinx:hover .dropdown-menu-pinx {
+  display: block;
+}
+
+.sub-dropdown-pinx {
+  position: absolute;
+  top: 0vh;
+  right: 18vh;
+  width: 20vh;
+  background-color: #685f54;
+  border-radius: 1vh;
+  box-shadow: 0 2vh 5vh rgba(0, 0, 0, 0.5);
+  color: white;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
+}
+
+.nested-group-pinx:hover .sub-dropdown-pinx {
+  opacity: 1;
+  visibility: visible;
+}
+
+.sub-dropdown-pinx ul {
+  list-style: none;
+  padding: 1vh 0;
+  margin: 0;
+}
+
+.sub-dropdown-pinx li {
+  padding: 1vh;
+  font-size: 2vh;
+  cursor: pointer;
+  transition: background-color 0.3s ease-in-out;
+}
+
+.sub-dropdown-pinx li:hover {
+  background-color: #474747;
+}
+
+/* Style for the dropdown link */
+.dropdown-link-pinx {
+  text-decoration: none;
+  color: white;
+}
+
+.dropdown-link-pinx:hover {
+  background-color: #474747;
+  color: lightgray;
+}
+
+.staticimage-title-pinx {
+  position: fixed;
+  top: 20vh;
+  left: 24.5vh;
+  font-size: 5vh;
+  font-weight: bold;
+  color: #4e4e4e;
+  text-align: center;
+}
+
+.input-stack-pinx {
+  display: flex;
+  flex-direction: column;
+  gap: 2vh;
+  max-height: 30vh; 
+  min-height: 30vh; 
+  overflow-y: auto;
+}
+
+.input-container-pinx {
+  display: flex;
+  align-items: center;
+  gap: 1vh;
+}
+
+.input-box-pinx {
+  resize: none;
+  border: 2px solid #D1D5DB;
+  border-radius: 8px;
+  padding: 0.005vh;
+  width: 100vh;
+  height: 7vh;
+  min-height: 1vh;
+  line-height: 1.5;
+  font-size: 2.5vh;
+  color: #333;
+  background-color: rgb(255, 255, 255);
+}
+
+.input-box-pinx:focus {
+  border-color: #4CAF50;
+  outline: none;
+}
+
+.add-btn-pinx, .remove-btn-pinx {
+  padding: 1vh;
+  font-size: 2vh;
+  cursor: pointer;
+  border: none;
+  background-color: #5a5a5a;
+  color: white;
+  border-radius: 0.5vh;
+}
+
+.add-btn-pinx {
+  background-color: #3b82f6;
+}
+
+.remove-btn-pinx {
+  background-color: #f44336;
+}
+
+.add-link-container-pinx {
+    position: fixed;
+    text-align: center;  /* Centers the button */
+    /* margin-bottom: 45vh; */
+    left: 59vh;
+    top: 24vh;
+  }
+  
+  .add-links-btn-pinx {
+    padding: 1vh 1vh;  /* Converted from px */
+    border-radius: 1.5vh;  /* Converted from px */
+    border: 0;
+    background-color: #d6ad83;
+    letter-spacing: 0.2vh;  /* Converted from px */
+    font-size: 2.5vh;  /* Converted from px */
+    transition: all 0.3s ease;
+    box-shadow: #977a5d 0vh 1.5vh 0vh 0vh;  
+    color: hsl(0, 0%, 21%);
+    font-weight: bold;
+    cursor: pointer;
+  }
+  
+  .add-links-btn-pinx:hover {
+    box-shadow: #977a5d 0vh 1vh 0vh 0vh;  
+  }
+  
+  .add-links-btn-pinx:active {
+    background-color: #d6ad83;
+    box-shadow: #977a5d 0vh 0vh 0vh 0vh;
+    transform: translateY(0.7vh);  /* Converted from px */
+    transition: 0.2s;
+  }
+  
+  .modal-pinx {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 999;
+  }
+  
+  .modal-content-pinx {
+    background-color: white;
+    padding: 3vh;
+    border-radius: 1vh;
+    text-align: center;
+    width: 30vh;
+  }
+  
+  .delete-btn-pinx {
+    background-color: #f44336;
+    padding: 1vh 2vh;
+    font-size: 2vh;
+    border-radius: 0.5vh;
+    color: white;
+    cursor: pointer;
+  }
+  
+  .cancel-btn-pinx {
+    background-color: #f1f1f1;
+    padding: 1vh 2vh;
+    font-size: 2vh;
+    border-radius: 0.5vh;
+    cursor: pointer;
+  }
+  
+  .social-icons-pinx {
+    position: absolute;
+    /* top: 88vh; 
+    left: 100.3vh;  */
+    top: 89%;
+    left: 46.9%;
+    display: flex;
+    gap: 9%; 
+  }
+  
+  .icon-link-pinx {
+    color: #000; /* Icon color */
+    font-size: 4vh; /* Icon size */
+    transition: color 0.3s;
+  }
+  
+  .icon-link-pinx:hover {
+    color: #0077b5; /* Change color on hover */
+  }
+  

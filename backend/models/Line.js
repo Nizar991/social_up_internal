@@ -5,6 +5,10 @@ const lineSchema = new mongoose.Schema({
         type: String,
         required: true
     },
+    page: {
+        type: String,  // Define 'page' as a string field
+        required: true  // Make sure it's required
+    },
     createdAt: {
         type: Date,
         default: Date.now
@@ -24,5 +28,4 @@ lineSchema.pre('save', function(next) {
 
 // Export the model correctly
 const Line = mongoose.model('Line', lineSchema);
-module.exports = Line;  // Make sure you export the model here
-
+module.exports = Line;

@@ -8,7 +8,7 @@ const Line = require('./models/Line');  // Import the Line model here
 dotenv.config();
 
 const app = express();
-app.use(cors());
+app.use(cors({ origin: 'http://localhost:3000' }));
 app.use(express.json());
 
 // Connect to MongoDB
@@ -20,37 +20,27 @@ mongoose.connect(process.env.MONGO_URI, { useNewUrlParser: true, useUnifiedTopol
 app.use('/api/auth', authRoutes);
 
 // CRUD Routes for Lines
-app.post('/api/lines', async (req, res) => {
-    const { text } = req.body;
-
-    if (!text || text.trim() === '') {
-        return res.status(400).json({ message: 'Text field is required and cannot be empty' });
-    }
-
-    const line = new Line({ text });
-    
-    try {
-        await line.save();
-        res.status(201).json(line);
-    } catch (error) {
-        res.status(500).json({ message: 'Error adding line' });
-    }
-});
-
 app.get('/api/lines', async (req, res) => {
+    const { page } = req.query;  
+    if (!page) {
+        return res.status(400).json({ message: 'Page parameter is required' });
+    }
+
     try {
-        const lines = await Line.find();
+        const lines = await Line.find({ page: page });  // Filter lines based on page
         res.json(lines);
     } catch (error) {
         res.status(500).json({ message: 'Error fetching lines' });
     }
 });
 
+
+
 app.put('/api/lines/:id', async (req, res) => {
-    const { text } = req.body;
+    const { text, page } = req.body;
     
-    if (!text || text.trim() === '') {
-        return res.status(400).json({ message: 'Text field is required and cannot be empty' });
+    if (!text || text.trim() === '' || !page) {
+        return res.status(400).json({ message: 'Text and page fields are required' });
     }
     
     try {
@@ -61,6 +51,7 @@ app.put('/api/lines/:id', async (req, res) => {
         }
 
         line.text = text;
+        line.page = page; 
         await line.save();
         res.json(line);
     } catch (error) {
@@ -87,3 +78,6 @@ const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
 });
+
+
+
