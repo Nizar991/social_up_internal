@@ -1,20 +1,23 @@
 import { useState, useEffect } from 'react';
-import { useNavigate, useLocation  } from "react-router-dom";
+import axios from 'axios';
+
+
+import { useNavigate } from "react-router-dom";
+
+
 import { auth } from "../firebase/firebaseConfig";
 import { Link } from "react-router-dom";
 import { FaLinkedin, FaGithub } from 'react-icons/fa';
-import { BACKEND_URL } from "../config";  // Import backend URL
+import { BACKEND_URL } from "../config";  
 import "../styles/StaticImagePageAynaghor.css";
 
+
 const StaticImagePageAynaghor = () => {
-  const [inputFields, setInputFields] = useState([]);
-  const [showModal, setShowModal] = useState(false);
-  const [newText, setNewText] = useState("");  
-  const [editIndex, setEditIndex] = useState(null); 
+  const [lines, setLines] = useState([]); // Store lines from the backend
+  const [newText, setNewText] = useState(''); // Store text from the popup form
+  const [popupVisible, setPopupVisible] = useState(false); // Manage popup visibility
 
   const navigate = useNavigate();
-  const location = useLocation();  // To get the current route
-  const pageName = location.pathname.split('/').pop(); // Dynamically extract the page name
   
   const handleLogout = async () => {
     try {
@@ -25,118 +28,130 @@ const StaticImagePageAynaghor = () => {
     }
   };
 
-  // Fetch data based on the dynamic page name
+  
+
+  // Fetch lines when the component mounts
   useEffect(() => {
-    console.log("Fetching data for page:", pageName);
-    const fetchData = async () => {
+    const fetchLines = async () => {
       try {
-        const res = await fetch(`${BACKEND_URL}/api/lines?page=${pageName}`);
-        const data = await res.json();
-        console.log("Fetched lines:", data);  
-        setInputFields(data);
-      } catch (err) {
-        console.error("Error fetching lines:", err);
+          const response = await axios.get(`${BACKEND_URL}/api/lines?pageName=Aynaghor`);
+          setLines(response.data);
+      } catch (error) {
+          console.error('Error fetching lines:', error);
       }
-    };
-
-    fetchData(); 
-
-    // return () => {};
-  }, [pageName]); 
-
-  const handleAddInput = () => {
-    setShowModal(true);
-    setNewText("");
-    setEditIndex(null);
   };
 
-  const handleEditInput = (index) => {
-    setShowModal(true);
-    setNewText(inputFields[index].text);
-    setEditIndex(index);
-  };
+  fetchLines();
+  }, []); // Empty dependency array means this runs once when the component mounts
 
-  const handleDelete = async (id, index) => {
-    try {
-      const response = await fetch(`${BACKEND_URL}/api/lines/${id}`, {
-        method: "DELETE",
-      });
-
-      if (response.ok) {
-        // Remove the deleted line from the inputFields state
-        const updatedFields = [...inputFields];
-        updatedFields.splice(index, 1); // Remove the element at the specified index
-        setInputFields(updatedFields);
-      } else {
-        console.error("Error deleting line:", await response.json());
-      }
-    } catch (err) {
-      console.error("Error deleting line:", err);
-    }
-  };
-
+// Handle submitting a new line (post request)
   const handleSubmit = async () => {
-    if (newText.trim() !== "") {
-        const page = pageName;  
-
-        const requestBody = {
-            text: newText,
-            page: page,  
-        };
-
-        // console.log("Submitting text:", newText);
-        // console.log("Submitting page:", page);
-
-        if (editIndex === null) {
-            // Adding new text
-            const response = await fetch(`${BACKEND_URL}/api/lines`, {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(requestBody), 
-            });
-
-            if (response.ok) {
-                const savedLine = await response.json();
-                setInputFields([...inputFields, savedLine]);
-            } else {
-                console.error("Error on POST:", await response.json());
-            }
-        } else {
-            // Updating existing text
-            const updatedFields = [...inputFields];
-            const id = updatedFields[editIndex]._id;
-            updatedFields[editIndex].text = newText;
-
-            await fetch(`${BACKEND_URL}/api/lines/${id}`, {
-                method: "PUT",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ text: newText, page: page }),  // Include page here as well
-            });
-
-            setInputFields(updatedFields);
-        }
-
-        setShowModal(false);
-        setNewText("");
-    } else {
-        console.log("Text is empty, cannot submit");
+    if (!newText.trim()) {
+        alert('Please enter some text');
+        return;
     }
-};
+
+    try {
+        await axios.post(`${BACKEND_URL}/api/lines`, { text: newText, pageName: 'Aynaghor' });
+        setLines(prevLines => [...prevLines, { text: newText, pageName: 'Aynaghor' }]);
+        setNewText(''); // Clear the text area
+        setPopupVisible(false); // Close the popup
+    } catch (error) {
+        console.error('Error submitting new line:', error);
+    }
+  };
+
+  // Handle text change in the popup
+  const handleTextChange = (e) => {
+    setNewText(e.target.value);
+  };
+
+  // Toggle popup visibility
+  const togglePopup = () => {
+      setPopupVisible(!popupVisible);
+  };
+
+
+
+  // const handleAddInput = () => {
+  //   setShowModal(true);
+  //   setNewText("");
+  //   setEditIndex(null);
+  // };
+
+  // const handleEditInput = (index) => {
+  //   setShowModal(true);
+  //   setNewText(inputFields[index].text);
+  //   setEditIndex(index);
+  // };
+
+  // const handleDelete = async (id, index) => {
+  //   try {
+  //     const response = await fetch(`${BACKEND_URL}/api/lines/${id}`, {
+  //       method: "DELETE",
+  //     });
+
+  //     if (response.ok) {
+  //       // Remove the deleted line from the inputFields state
+  //       const updatedFields = [...inputFields];
+  //       updatedFields.splice(index, 1); // Remove the element at the specified index
+  //       setInputFields(updatedFields);
+  //     } else {
+  //       console.error("Error deleting line:", await response.json());
+  //     }
+  //   } catch (err) {
+  //     console.error("Error deleting line:", err);
+  //   }
+  // };
+
+  
 
   return (
+
     <div className="staticimage-background-aynaghor">
+
       <button className="name-logo-btn-aynaghor" onClick={() => navigate("/homepage")}>
         Social up Internal Team - Aynaghor
       </button>
+
+
       <h1 className="staticimage-title-aynaghor">Static Images</h1>
 
+
       <div className="add-link-container-aynaghor">
-        <button className="add-links-btn-aynaghor" onClick={handleAddInput}>
+
+        <button className="add-links-btn-aynaghor" onClick={togglePopup}>
           Add Link(s)
         </button>
+
+        {popupVisible && 
+        (
+                <div className="popup">
+                    <textarea value={newText} onChange={handleTextChange} placeholder="Enter your text" />
+                    <button onClick={handleSubmit}>Submit</button>
+                    <button onClick={togglePopup}>Cancel</button>
+                </div>
+        )}
+
       </div>
 
-      <div className="input-stack-aynaghor">
+
+
+      <div>
+        {lines.length === 0 ? (
+            <p>No data found</p>
+        ) : (
+            lines.map((line, index) => (
+                <div key={index}>
+                    <textarea defaultValue={line.text} readOnly />
+                    <button>Edit</button>
+                    <button>Delete</button>
+                </div>
+            ))
+        )}
+      </div>
+
+      {/* <div className="input-stack-aynaghor">
         {inputFields.map((input, index) => (
           <div key={input._id} className="input-container-aynaghor">
             <textarea
@@ -145,17 +160,20 @@ const StaticImagePageAynaghor = () => {
               readOnly
               rows={4}
             />
+
             <button onClick={() => handleEditInput(index)} className="edit-btn-aynaghor">
               Edit
             </button>
+
             <button onClick={() => handleDelete(input._id, index)} className="delete-btn-aynaghor">
               Delete
             </button>
+
           </div>
         ))}
-      </div>
+      </div> */}
 
-      {showModal && (
+      {/* {showModal && (
         <div className="modal-aynaghor">
           <div className="modal-content-aynaghor">
             <textarea
@@ -174,7 +192,7 @@ const StaticImagePageAynaghor = () => {
             </div>
           </div>
         </div>
-      )}
+      )} */}
 
 
 

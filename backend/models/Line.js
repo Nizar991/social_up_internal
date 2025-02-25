@@ -5,9 +5,9 @@ const lineSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    page: {
-        type: String,  // Define 'page' as a string field
-        required: true  // Make sure it's required
+    pageName: {
+        type: String,  
+        required: true  
     },
     createdAt: {
         type: Date,
