@@ -6,7 +6,7 @@ import { getAuth, GoogleAuthProvider } from "firebase/auth";
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
-  apiKey: "AIzaSyDXlckYcp0jHGFeT7cDS__5IIaHKU7fLUw",
+  // apiKey: "ENTER YOUR FIREBASE API KEY HERE",
   authDomain: "social-up-internal-mern.firebaseapp.com",
   projectId: "social-up-internal-mern",
   messagingSenderId: "980313544811",
